@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>View Cateogry</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <style>
+        .alert-error {
+            color: #f50b0b;
+            background-color: #7c0417;
+            border-color: #d66f6f;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="text-center">
+        <h1>View Category</h1>
+    </div>
+    <div class="pb-3">
+        <a href="addCateogryPage" class="btn btn-primary">Add Cateogry</a>
+    </div>
+    {% if messages %}
+        {% for foo in messages %}
+            <div class="alert alert-{{ foo.tags }}">{{ foo }}</div>
+        {% endfor %}
+    {% endif %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>S.NO</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Delete</th>
+                <th>Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for foo in data %}
+                <tr>
+                    <td>{{ foo.sno }}</td>
+                    <td>{{ foo.name }}</td>
+                    <td>{{ foo.description }}</td>
+                    <td><a class="btn btn-danger" onclick="return confirm('Are you sure to Delete?')"
+                           href="deleteCategory?id={{ foo.id }}">Delete</a></td>
+                    <td><a class="btn btn-warning" onclick="return confirm('Are you sure to Edit?')"
+                           href="editCateogry?id={{ foo.id }}">Edit</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
