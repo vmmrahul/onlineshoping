@@ -1,0 +1,34 @@
+category 
+    1. id -> integer used for delete or edit
+    2. name -> varchar(255)
+    3. Description -> text
+
+
+product
+    1. id
+    2. name
+    3. price
+    4. priceAfterDiscount
+    5. description
+    6. brand
+    7. catogry_id (FK to category)
+    8. photo
+
+
+What to do:
+    1. add form
+    2. viewForm, Delete
+    3. Update/Edit
+
+
+
+pannel:
+
+    1. Admin -> .html
+    2. Customer -> .html
+
+
+jquery.js
+popper.js
+
+

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="text-center">
+        <h1 style="font-family: 'East Sea Dokdo', cursive;font-size: 4em">Add Product</h1>
+        <hr>
+    </div>
+    {% if messages %}
+        {% for foo in messages %}
+            <div class="alert alert-{{ foo.tags }}">{{ foo }}</div>
+        {% endfor %}
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+            <form action="addproduct" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" required id="name" class="form-control" placeholder="Produt name">
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="text" name="price" id="price" required class="form-control" placeholder="Price">
+                </div>
+                <div class="form-group">
+                    <label for="priceAfterDiscount">Price After Discount</label>
+                    <input type="text" name="priceAfterDiscount" id="priceAfterDiscount" required class="form-control"
+                           placeholder="Price">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" class="form-control" id="description" required cols="30"
+                              rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="brand">Brand</label>
+                    <input type="text" id="brand" name="brand" class="form-control" required placeholder="Brand">
+                </div>
+                <div class="form-group">
+                    <label for="cid">Category Name</label>
+                    <select name="cid" id="cid" class="form-control">
+                        {% for foo in data %}
+                            <option value="{{ foo.id }}">{{ foo.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="photo">Photo</label>
+                    <input type="file" id="photo" name="photo" class="form-control" required>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-success">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -24,4 +24,5 @@ urlpatterns = [
     path('deleteCategory', deleteCategory),
     path('editCateogry', editCateogry),
     path('editCategoryAction', editCategoryAction),
+    path('addproduct', addproduct),
 ]
