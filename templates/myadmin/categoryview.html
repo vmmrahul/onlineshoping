@@ -33,6 +33,7 @@
                 <th>S.NO</th>
                 <th>Name</th>
                 <th>Description</th>
+                <th>Photo</th>
                 <th>Delete</th>
                 <th>Edit</th>
             </tr>
@@ -43,6 +44,7 @@
                     <td>{{ foo.sno }}</td>
                     <td>{{ foo.name }}</td>
                     <td>{{ foo.description }}</td>
+                    <td><img src="{% static  foo.photo %}" width="200px" alt=""></td>
                     <td><a class="btn btn-danger" onclick="return confirm('Are you sure to Delete?')"
                            href="deleteCategory?id={{ foo.id }}">Delete</a></td>
                     <td><a class="btn btn-warning" onclick="return confirm('Are you sure to Edit?')"

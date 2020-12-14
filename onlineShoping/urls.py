@@ -25,4 +25,15 @@ urlpatterns = [
     path('editCateogry', editCateogry),
     path('editCategoryAction', editCategoryAction),
     path('addproduct', addproduct),
+    path('view_product', view_product),
+
+    # client side url
+    path('', index),
+    path('viewCateogry', viewCateogry),
+    path('viewProduct', viewProduct),
+    path('cartCheckout', cartCheckout, name='cartcheckout'),
+    path('add_to_cart', add_to_cart),
+    path('cart_inc_dec', cart_inc_dec),
+    path('contactUs', contactUs, name='mailUs'),
+
 ]
