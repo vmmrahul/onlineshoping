@@ -163,35 +163,38 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <th>Remove</th>
                 </tr>
                 </thead>
-                {% for sess in data %}
-                    <tr class="rem1">
-                        <td class="invert">{{ sess.sno }}</td>
-                        <td class="invert-image"><a href="single.html"><img
-                                src="{% static sess.image %}" alt=" "
-                                class="img-responsive" style="width: 150px"/></a></td>
-                        <td class="invert">
-                            <div class="quantity">
-                                <div class="quantity-select">
-                                    <div class="entry value-minus" onclick="product_inc_dec('minus',{{ sess.id }})">
-                                        &nbsp;
-                                    </div>
-                                    <div class="entry value"><span>{{ sess.qty }}</span></div>
-                                    <div class="entry value-plus active"
-                                         onclick="product_inc_dec('plus',{{ sess.id }})">&nbsp;
+                {% if data != 'no' %}
+                    {% for sess in data %}
+                        <tr class="rem1">
+                            <td class="invert">{{ sess.sno }}</td>
+                            <td class="invert-image"><a href="single.html"><img
+                                    src="{% static sess.image %}" alt=" "
+                                    class="img-responsive" style="width: 150px"/></a></td>
+                            <td class="invert">
+                                <div class="quantity">
+                                    <div class="quantity-select">
+                                        <div class="entry value-minus" onclick="product_inc_dec('minus',{{ sess.id }})">
+                                            &nbsp;
+                                        </div>
+                                        <div class="entry value"><span>{{ sess.qty }}</span></div>
+                                        <div class="entry value-plus active"
+                                             onclick="product_inc_dec('plus',{{ sess.id }})">&nbsp;
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="invert">{{ sess.name }}</td>
-                        <td class="invert">{{ sess.price }}</td>
-                        <td class="invert">{{ sess.totalPrice }}</td>
-                        <td class="invert">
-                            <div class="rem">
-                                <div class="close1"></div>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
+                            </td>
+                            <td class="invert">{{ sess.name }}</td>
+                            <td class="invert">{{ sess.price }}</td>
+                            <td class="invert">{{ sess.totalPrice }}</td>
+                            <td class="invert">
+                                <div class="rem">
+                                    <div class="close1"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+
             </table>
         </div>
         <div class="checkout-left">
@@ -199,10 +202,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <h4>Continue to basket</h4>
                 <ul>
                     {% for datum in data %}
-                        <li>{{ datum.name }} <i>-</i> <span>{{ datum.totalPrice}} </span></li>
+                        <li>{{ datum.name }} <i>-</i> <span>{{ datum.totalPrice }} </span></li>
                     {% endfor %}
                     <li>Total <i>-</i> <span>{{ grand_total }}</span></li>
                 </ul>
+                <div class="text-center">
+                    {% if data != 'no' %}
+                        <a class="btn btn-primary" href="process_to_pay">Process to pay</a>
+                    {% endif %}
+                </div>
             </div>
             <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
                 <a href="viewCateogry"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Continue

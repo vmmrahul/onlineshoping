@@ -4,7 +4,7 @@ from django.core.files.storage import FileSystemStorage
 import sqlite3
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
-
+from datetime import *
 
 def addCateogryPage(request):
     return render(request, 'myadmin/addCategory.html')
@@ -136,18 +136,22 @@ def index(request):
 
 
 def cartCheckout(request):
-    all_items = request.session['cart']
+    try:
+        all_items = request.session['cart']
 
-    new_all_items =[]
-    count =1
-    grand_total = 0
-    for item in all_items:
-        dist = item
-        grand_total+=item['totalPrice']
-        dist['sno']= count
-        count += 1
-        new_all_items.append(dist)
-    return render(request, 'client/checkout.html',{'data':new_all_items,'grand_total':grand_total})
+        new_all_items =[]
+        count =1
+        grand_total = 0
+        for item in all_items:
+            dist = item
+            grand_total+=item['totalPrice']
+            dist['sno']= count
+            count += 1
+            new_all_items.append(dist)
+        content ={'data':new_all_items,'grand_total':grand_total}
+    except:
+        content = {'data':'no'}
+    return render(request, 'client/checkout.html', content)
 
 def cart_inc_dec(request):
     id=request.GET['id']
@@ -170,6 +174,54 @@ def cart_inc_dec(request):
     request.session['cart'] = all_items
     print(request.session['cart'])
     return HttpResponse('success')
+
+def process_to_pay(request):
+    total = 0
+    for item in request.session['cart']:
+        total += item['totalPrice']
+    return render(request, 'client/processToPay.html', {'total':total})
+
+
+@csrf_exempt
+def payment_action(request):
+    name = request.POST['name']
+    email = request.POST['email']
+    address = request.POST['address']
+    total = request.POST['total']
+    paymentmode = request.POST['paymentmode']
+    mobile = request.POST['mobile']
+    dateOfOrder = date.today()
+
+    if paymentmode == 'Cash':
+        payStatus = 'pending'
+    else:
+        payStatus = 'Done'
+
+    conn = sqlite3.connect('db.sqlite3')
+    cr = conn.cursor()
+    Query_for_bill = f"insert into billing (`email`, `address`, `totalAmount`, `mobile`, `typeofbill`, `dateofpayment`, `paystatus`,`name`) values ('{email}', '{address}','{total}', '{mobile}','{paymentmode}','{dateOfOrder}', '{payStatus}','{name}')"
+    cr.execute(Query_for_bill)
+    conn.commit()
+
+    select_query = "select bill_id from billing order by bill_id DESC"
+    cr = conn.cursor()
+    cr.execute(select_query)
+    result = cr.fetchone()
+
+    for item in request.session['cart']:
+        query_detail = "insert into billDetail (`title`, `price`, `qty`, `total_price`, `billing_id`) values ('{}','{}','{}','{}','{}')".format(item['name'], item['price'], item['qty'] ,item['totalPrice'], result[0])
+        cr = conn.cursor()
+        cr.execute(query_detail)
+        conn.commit()
+    return JsonResponse({'billid':result[0]})
+
+def thankspage(request):
+    try:
+        del request.session['cart']
+    except:
+        pass
+    billid = request.GET['billid']
+    return render(request, 'client/thankyou.html',{'billid': billid})
 
 @csrf_exempt
 def add_to_cart(request):

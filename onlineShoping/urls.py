@@ -34,6 +34,9 @@ urlpatterns = [
     path('cartCheckout', cartCheckout, name='cartcheckout'),
     path('add_to_cart', add_to_cart),
     path('cart_inc_dec', cart_inc_dec),
+    path('process_to_pay', process_to_pay),
+    path('payment_action', payment_action),
+    path('thankspage', thankspage),
     path('contactUs', contactUs, name='mailUs'),
 
 ]
